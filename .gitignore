@@ -4,3 +4,6 @@
 /EXTichu.Editor.csproj
 /EXTichu.sln
 /Temp
+/UnityPackageManager
+/obj
+*.csproj
