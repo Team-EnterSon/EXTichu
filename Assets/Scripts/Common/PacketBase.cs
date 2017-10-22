@@ -4,22 +4,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace WSTichu.Common
 {
-	public abstract class PacketBase<T> : MessageBase
+	public class SourcePacket : MessageBase
 	{
-		public abstract T Content { get; set; }
+		public string Source = default(string);
+	}
 
-		public override void Deserialize(NetworkReader reader)
+	public abstract class Packet<T>
+	{
+		public static T ParseFrom(SourcePacket source)
 		{
-			Content = JsonConvert.DeserializeObject<T>(reader.ReadString());
+			return JsonConvert.DeserializeObject<T>(source.Source);
 		}
 
-		public override void Serialize(NetworkWriter writer)
+		public static T ParseFrom(NetworkMessage msg)
 		{
-			writer.Write(JsonConvert.SerializeObject(Content));
+			return ParseFrom(msg.ReadMessage<SourcePacket>());
+		}
+
+		public SourcePacket ToPacket()
+		{
+			return new SourcePacket { Source = JsonConvert.SerializeObject(this) };
 		}
 	}
 }

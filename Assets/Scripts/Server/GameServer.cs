@@ -23,6 +23,7 @@ namespace WSTichu.Server
 			Action installMessageHandlers = () =>
 			{
 				_network.RegisterHandler(MessageType.Connect, onConnected);
+				_network.RegisterHandler(MessageType.CS_RequireGameBoard, onCS_RequireGameBoard)
 			};
 
 			setupServerConfig();
@@ -35,6 +36,12 @@ namespace WSTichu.Server
 			}
 		}
 
+		private void onCS_RequireGameBoard(NetworkMessage netMsg)
+		{
+			var message = CS_RequireGameBoard.ParseFrom(netMsg);
+
+		}
+
 		public void Update()
 		{
 			_network.Update();
@@ -44,5 +51,7 @@ namespace WSTichu.Server
 		{
 			Debug.LogFormat("[{0}] New client connected : {1}", nameof(GameServer), source.conn);
 		}
+
+
 	}
 }

@@ -13,19 +13,14 @@ namespace WSTichu.Common
 
 	}
 
-	public class CS_RequireGameBoard : MessageBase
+	public class CS_RequireGameBoard : Packet<CS_RequireGameBoard>
 	{
 	}
 
-	public class SC_GameBoardDump : PacketBase<SC_GameBoardDump.Body>
+	public class SC_GameBoardDump : Packet<SC_GameBoardDump>
 	{
-		public override Body Content { get; set; }
-		public class Body
-		{
-
-			public GameBoard CurrentGameBoard;
-			public List<RoundScore> RoundHistory;
-		}
+		public GameBoard CurrentGameBoard;
+		public List<RoundScore> RoundHistory;
 	}
 
 	// ---- sub structures

@@ -25,7 +25,7 @@ namespace WSTichu.Client
 			yield return connectToServer();
 			// NOTE(sorae): now network is connected
 
-
+			yield return constructGameBoard();
 		}
 
 		private IEnumerator connectToServer()
@@ -46,11 +46,11 @@ namespace WSTichu.Client
 			yield break;
 		}
 
+		SC_GameBoardDump _asdf;
 		private IEnumerator constructGameBoard()
 		{
 			var dumpMsg = null as SC_GameBoardDump;
-			yield return sendMessage<SC_GameBoardDump>(MessageType.CS_RequireGameBoard, new CS_RequireGameBoard(), MessageType.SC_GameBoardDump, (reply) => dumpMsg = reply);
-			Debug.Log(dumpMsg);
+			yield return sendMessage<SC_GameBoardDump>(MessageType.CS_RequireGameBoard, new CS_RequireGameBoard(), MessageType.SC_GameBoardDump, (reply) => _asdf = reply);
 		}
 
 		private IEnumerator sendMessage<TReply>(short msgType, MessageBase msg, short replyType, Action<TReply> onReply) where TReply : MessageBase, new()
