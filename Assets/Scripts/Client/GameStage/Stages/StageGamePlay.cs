@@ -32,7 +32,6 @@ namespace WSTichu.Client
 		{
 			Action installHandlers = () =>
 			{
-				_network.RegisterHandler(MessageType.SC_World, (_) => Debug.Log("Server says World!"));
 			};
 
 			_network = new NetworkClient();
@@ -49,7 +48,25 @@ namespace WSTichu.Client
 
 		private IEnumerator constructGameBoard()
 		{
-			_network.Send()
+			var dumpMsg = null as SC_GameBoardDump;
+			yield return sendMessage<SC_GameBoardDump>(MessageType.CS_RequireGameBoard, new CS_RequireGameBoard(), MessageType.SC_GameBoardDump, (reply) => dumpMsg = reply);
+			Debug.Log(dumpMsg);
+		}
+
+		private IEnumerator sendMessage<TReply>(short msgType, MessageBase msg, short replyType, Action<TReply> onReply) where TReply : MessageBase, new()
+		{
+			var isReplyArrived = false;
+			_network.RegisterHandler(replyType, reply =>
+			{
+				onReply(reply.ReadMessage<TReply>());
+				isReplyArrived = true;
+				});
+			_network.Send(msgType, msg);
+
+			while (false == isReplyArrived)
+				yield return null;
+
+			_network.UnregisterHandler(replyType);
 		}
 
 

@@ -17,15 +17,15 @@ namespace WSTichu.Common
 	{
 	}
 
-	public class SC_GameBoardDump : MessageBase
+	public class SC_GameBoardDump : PacketBase<SC_GameBoardDump.Body>
 	{
-		public GameBoard CurrentGameBoard;
-		public List<RoundScore> RoundHistory;
-	}
+		public override Body Content { get; set; }
+		public class Body
+		{
 
-	public class SC_World : MessageBase
-	{
-
+			public GameBoard CurrentGameBoard;
+			public List<RoundScore> RoundHistory;
+		}
 	}
 
 	// ---- sub structures
