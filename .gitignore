@@ -1,5 +1,6 @@
 .vs
 /Library
-/WSTichu.csproj
-/WSTichu.Editor.csproj
-/WSTichu.sln
+/EXTichu.csproj
+/EXTichu.Editor.csproj
+/EXTichu.sln
+/Temp
