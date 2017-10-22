@@ -1,4 +1,5 @@
 ﻿using EnterSon.Stage;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -14,21 +15,44 @@ namespace WSTichu.Client
 		{
 			base.EnterStage();
 
-			StartCoroutine(connectToServerRoutine());
+
+
+			this.StartCoroutine(mainRoutine());
 		}
 
-		private IEnumerator connectToServerRoutine()
+		private IEnumerator mainRoutine()
 		{
+			yield return connectToServer();
+			// NOTE(sorae): now network is connected
+
+
+		}
+
+		private IEnumerator connectToServer()
+		{
+			Action installHandlers = () =>
+			{
+				_network.RegisterHandler(MessageType.SC_World, (_) => Debug.Log("Server says World!"));
+			};
+
 			_network = new NetworkClient();
+
+			installHandlers();
 			_network.Connect(DataContainer.HostIP, DataContainer.HostPort);
-			_network.RegisterHandler(MessageType.SC_World, (_) => Debug.Log("Server says World!"));
 
 			while (_network.isConnected == false)
 			{
 				yield return null;
 			}
-			_network.Send(MessageType.CS_Hello, new CS_Hello { Name = "Sorae" });
+			yield break;
 		}
+
+		private IEnumerator constructGameBoard()
+		{
+			_network.Send()
+		}
+
+
 
 
 	}
