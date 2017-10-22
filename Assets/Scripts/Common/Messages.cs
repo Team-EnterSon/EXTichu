@@ -63,7 +63,7 @@ namespace WSTichu.Common
 		{
 			public static Combination CreateFromCards(IEnumerable<Card> sourceCards)
 			{
-				throw new NotImplementedException();
+				return new Combination { Cards = sourceCards.ToList() };
 			}
 		}
 
