@@ -23,7 +23,6 @@ namespace WSTichu.Server
 			Action installMessageHandlers = () =>
 			{
 				_network.RegisterHandler(MessageType.Connect, onConnected);
-				_network.RegisterHandler(MessageType.CS_Hello, onCS_Hello);
 			};
 
 			setupServerConfig();
@@ -44,13 +43,6 @@ namespace WSTichu.Server
 		private void onConnected(NetworkMessage source)
 		{
 			Debug.LogFormat("[{0}] New client connected : {1}", nameof(GameServer), source.conn);
-		}
-
-		private void onCS_Hello(NetworkMessage source)
-		{
-			var msg = source.ReadMessage<CS_Hello>();
-			Debug.LogFormat("Player {0} says Hello!", msg.Name);
-			source.conn.Send(MessageType.SC_World, new SC_World());
 		}
 	}
 }
