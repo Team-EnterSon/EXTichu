@@ -10,13 +10,15 @@ namespace WSTichu.Server
 {
 	public class GameServer : MonoBehaviour
 	{
-		NetworkServerSimple _network = null;
+		private NetworkServerSimple _network = null;
+		private ConnectionConfig _config = null;
 
 		public void Awake()
 		{
 			Action setupServerConfig = () =>
 			{
 				_network = new NetworkServerSimple();
+				_config = new ConnectionConfig();
 			};
 			Action installMessageHandlers = () =>
 			{
@@ -26,9 +28,17 @@ namespace WSTichu.Server
 
 			setupServerConfig();
 			installMessageHandlers();
-
+			
 			// TODO(sorae): Set listenPort by command line argument
-			NetworkServer.Listen(8888);
+			if(_network.Listen(8888))
+			{
+				Debug.LogFormat("Now Server is listening on port : {0}", _network.listenPort);
+			}
+		}
+
+		public void Update()
+		{
+			_network.Update();
 		}
 
 		private void onConnected(NetworkMessage source)
