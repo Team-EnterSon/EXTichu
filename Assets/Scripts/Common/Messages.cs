@@ -10,7 +10,7 @@ namespace WSTichu.Common
 	{
 		public const short CS_RequestGameBoard = 101;
 		public const short SC_GameBoardDump = 102;
-
+		public const short SC_ConnectSuccess = 103;
 	}
 
 	public class CS_RequestGameBoard : Packet<CS_RequestGameBoard>
@@ -23,13 +23,18 @@ namespace WSTichu.Common
 		public List<RoundScore> RoundHistory;
 	}
 
+	public class SC_ConnectSuccess : Packet<SC_ConnectSuccess>
+	{
+		public Player player;
+	}
+
 	// ---- sub structures
 	public class GameBoard
 	{
 		public Combination LastCombination = null;
 		public List<Card> CardStack = null;
 		public int? RequiredNumberByDog;
-		public Dictionary<TeamType, Player[]> Players = null;
+		public Dictionary<TeamType, List<Player>> Players = null;
 		public RoundPhase? CurrentRoundPhase;
 		public List<int> PlayerUIDsInAction;
 	}
@@ -45,9 +50,10 @@ namespace WSTichu.Common
 
 	public enum TeamType
 	{
+		kTeamBegin = kTeam1,
 		kTeam1 = 0,
 		kTeam2 = 1,
-
+		kTeamEnd,
 	}
 
 	public class Combination
@@ -109,8 +115,6 @@ namespace WSTichu.Common
 
 		public ShapeType? Shape = null;
 		public CardType? TypeOfCard = CardType.kRegularCard;
-
-
 	}
 
 	public class RoundScore
@@ -127,6 +131,5 @@ namespace WSTichu.Common
 		public Card[] CardsInHand;
 
 		public Card[] CardsEaten;
-
 	}
 }
