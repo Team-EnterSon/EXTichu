@@ -23,7 +23,7 @@ namespace WSTichu.Server
 			Action installMessageHandlers = () =>
 			{
 				_network.RegisterHandler(MessageType.Connect, onConnected);
-				_network.RegisterHandler(MessageType.CS_RequireGameBoard, onRequireGameBoard);
+				_network.RegisterHandler(MessageType.CS_RequestGameBoard, onRequestGameBoard);
 			};
 
 			setupServerConfig();
@@ -47,32 +47,9 @@ namespace WSTichu.Server
 			Debug.LogFormat("[{0}] New client connected : {1}", nameof(GameServer), source.conn);
 		}
 
-		private void onRequireGameBoard(NetworkMessage netMsg)
+		private void onRequestGameBoard(NetworkMessage netMsg)
 		{
-			SC_GameBoardDump dump = new SC_GameBoardDump();
-			GameBoard board = new GameBoard();
 
-			List<Card> cards = new List<Card>
-			{
-				Card.Unknown,
-				Card.Unknown,
-				Card.Unknown,
-				Card.Unknown
-			};
-
-			board.LastCombination = Combination.Factory.CreateFromCards(cards);
-
-
-			Player p1 = new Player();
-			Dictionary<TeamType, Player[]> players = new Dictionary<TeamType, Player[]>();
-			Player[] plys = { p1, p1 };
-			players.Add(TeamType.kTeam1, plys);
-
-			board.Players = players;
-
-			dump.CurrentGameBoard = board;
-
-			netMsg.conn.Send(MessageType.SC_GameBoardDump, dump.ToPacket());
 		}
 	}
 }

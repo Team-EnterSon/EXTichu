@@ -8,12 +8,12 @@ namespace WSTichu.Common
 {
 	public class MessageType : MsgType
 	{
-		public const short CS_RequireGameBoard = 101;
+		public const short CS_RequestGameBoard = 101;
 		public const short SC_GameBoardDump = 102;
 
 	}
 
-	public class CS_RequireGameBoard : Packet<CS_RequireGameBoard>
+	public class CS_RequestGameBoard : Packet<CS_RequestGameBoard>
 	{
 	}
 
