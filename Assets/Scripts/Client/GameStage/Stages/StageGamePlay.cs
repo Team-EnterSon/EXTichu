@@ -49,7 +49,7 @@ namespace WSTichu.Client
 		private IEnumerator constructGameBoard()
 		{
 			var dumpMsg = null as SC_GameBoardDump;
-			yield return sendMessage<SC_GameBoardDump>(MessageType.CS_RequireGameBoard, new CS_RequireGameBoard().ToPacket(), MessageType.SC_GameBoardDump, (reply) => dumpMsg = reply);
+			yield return sendMessage<SC_GameBoardDump>(MessageType.CS_RequestGameBoard, new CS_RequestGameBoard().ToPacket(), MessageType.SC_GameBoardDump, (reply) => dumpMsg = reply);
 			Debug.Log(dumpMsg);
 		}
 
