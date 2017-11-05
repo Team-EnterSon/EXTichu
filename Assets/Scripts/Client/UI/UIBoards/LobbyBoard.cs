@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace WSTichu.Client
+namespace EXTichu.Client
 {
 	public class LobbyBoard : UIBoard
 	{

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WSTichu.Client
+namespace EXTichu.Client
 {
 	public static class DataContainer
 	{

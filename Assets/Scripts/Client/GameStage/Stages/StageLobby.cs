@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 
-namespace WSTichu.Client
+namespace EXTichu.Client
 {
 	public class StageLobby : Stage
 	{

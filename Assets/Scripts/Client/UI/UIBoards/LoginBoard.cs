@@ -3,7 +3,7 @@ using EnterSon.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace WSTichu.Client
+namespace EXTichu.Client
 {
 
 	public class LoginBoard : UIBoard

@@ -1,11 +1,12 @@
 ﻿using EnterSon.Stage;
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
-using WSTichu.Common;
+using EXTichu.Common;
 
-namespace WSTichu.Client
+namespace EXTichu.Client
 {
 	public class StageGamePlay : Stage
 	{
@@ -24,8 +25,7 @@ namespace WSTichu.Client
 		{
 			yield return connectToServer();
 			// NOTE(sorae): now network is connected
-
-			yield return constructGameBoard();
+			
 		}
 
 		private IEnumerator connectToServer()
@@ -44,13 +44,6 @@ namespace WSTichu.Client
 				yield return null;
 			}
 			yield break;
-		}
-		
-		private IEnumerator constructGameBoard()
-		{
-			var dumpMsg = null as SC_GameBoardDump;
-			yield return sendMessage<SC_GameBoardDump>(MessageType.CS_RequestGameBoard, new CS_RequestGameBoard().ToPacket(), MessageType.SC_GameBoardDump, (reply) => dumpMsg = reply);
-			Debug.Log(dumpMsg);
 		}
 
 		private IEnumerator sendMessage<TReply>(short msgType, SourcePacket packet, short replyType, Action<TReply> onReply) where TReply : Packet<TReply>, new()

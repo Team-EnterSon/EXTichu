@@ -1,6 +1,6 @@
 ﻿using EnterSon.UI;
 
-namespace WSTichu.Client
+namespace EXTichu.Client
 {
 	public class LauncherBoard : UIBoard
 	{

@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-namespace WSTichu.Client
+namespace EXTichu.Client
 {
 	public class StageLauncher : Stage
 	{

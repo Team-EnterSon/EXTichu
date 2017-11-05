@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace WSTichu.Client
+namespace EXTichu.Client
 {
 	public class StageLogin : Stage
 	{
