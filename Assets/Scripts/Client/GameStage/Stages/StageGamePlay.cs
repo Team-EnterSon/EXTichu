@@ -48,7 +48,8 @@ namespace EXTichu.Client
 
 				dummyCard.Number = numbers.PickRandomly(randomTable);
 				dummyCard.Shape  = shapes.PickRandomly(randomTable);
-				dummyCard.Side = Card.SideType.kFront;
+				dummyCard.Side = Tuple.Create(dummyCard.Shape, dummyCard.Number).IsValid()
+					? Card.SideType.kFront : Card.SideType.kBack;
 			}
 
 			yield break;

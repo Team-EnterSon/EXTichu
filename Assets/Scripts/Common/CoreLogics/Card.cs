@@ -66,5 +66,16 @@ namespace EXTichu.Common.CoreLogics
 					return true;
 			}
 		}
+
+		public static bool IsValid(this Tuple<Card.ShapeType?, Card.NumberType?> me)
+		{
+			if (me.Item1 == null || me.Item2 == null)
+				return false;
+
+			if (me.Item1 == Card.ShapeType.kSpecial)
+				return !!!me.Item2.Value.IsNormal();
+			else
+				return me.Item2.Value.IsNormal();
+		}
 	}
 }
