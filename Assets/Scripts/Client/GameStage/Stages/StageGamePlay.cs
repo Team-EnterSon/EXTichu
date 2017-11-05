@@ -5,6 +5,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 using EXTichu.Common;
+using EXTichu.Common.CoreLogics;
+using EnterSon.Utilities;
 
 namespace EXTichu.Client
 {
@@ -16,16 +18,40 @@ namespace EXTichu.Client
 		{
 			base.EnterStage();
 
+			CardView.LoadResources();
 
 
 			this.StartCoroutine(mainRoutine());
 		}
 
+		public override void ExitStage()
+		{
+			base.ExitStage();
+
+			CardView.UnloadResources();
+		}
+
 		private IEnumerator mainRoutine()
 		{
-			yield return connectToServer();
+			//yield return connectToServer();
 			// NOTE(sorae): now network is connected
-			
+
+			var dummyCard = ClientCard.Factory.Create();
+
+			var randomTable = new System.Random((int)DateTimeOffset.Now.ToUnixTimeSeconds());
+			var numbers = Enum.GetValues(typeof(Card.NumberType)).Cast<Card.NumberType>();
+			var shapes = Enum.GetValues(typeof(Card.ShapeType)).Cast<Card.ShapeType>();
+
+			while (true)
+			{
+				yield return new WaitForSeconds(1.0f);
+
+				dummyCard.Number = numbers.PickRandomly(randomTable);
+				dummyCard.Shape  = shapes.PickRandomly(randomTable);
+				dummyCard.Side = Card.SideType.kFront;
+			}
+
+			yield break;
 		}
 
 		private IEnumerator connectToServer()

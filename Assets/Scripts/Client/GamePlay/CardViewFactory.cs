@@ -8,7 +8,7 @@ namespace EXTichu.Client
 		{
 			public static CardView Create(ClientCard card)
 			{
-				var view = Resources.Load<CardView>("Ingame/Prefabs/CardView");
+				var view = Instantiate(Resources.Load<CardView>("Ingame/Prefabs/CardView"));
 
 				view.Number = card.Number;
 				view.Shape  = card.Shape;

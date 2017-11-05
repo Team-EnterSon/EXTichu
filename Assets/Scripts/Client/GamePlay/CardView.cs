@@ -43,7 +43,7 @@ namespace EXTichu.Client
 					}
 					else // shape is in range of 1~4
 					{
-						lResult += (int)shape;
+						lResult += (int)shape + "_";
 						if (false == number.IsNormal())
 							return null;
 						else
@@ -70,7 +70,7 @@ namespace EXTichu.Client
 					var spriteFilename = determineFileName(eachShape, eachNumber);
 					if (false == string.IsNullOrEmpty(spriteFilename))
 					{
-						var loadedResource = Resources.Load<Sprite>("Cards/" + spriteFilename);
+						var loadedResource = Resources.Load<Sprite>("Ingame/Textures/Cards/" + spriteFilename);
 						if (loadedResource != null)
 							_cachedCardSprites.Add(Tuple.Create(eachShape, eachNumber), loadedResource);
 					}
@@ -99,32 +99,35 @@ namespace EXTichu.Client
 
 		public Card.ShapeType? Shape
 		{
-			get { return _shapeBundle.Item1; }
+			get { return ShapeBundle.Item1; }
 			set
 			{
-				_shapeBundle = Tuple.Create(value, this.Number);
+				ShapeBundle = Tuple.Create(value, this.Number);
 			}
 		}
 		public Card.NumberType? Number
 		{
-			get { return _shapeBundle.Item2; }
+			get { return ShapeBundle.Item2; }
 			set
 			{
-				_shapeBundle = Tuple.Create(this.Shape,value);
+				ShapeBundle = Tuple.Create(this.Shape,value);
 			}
 		}
+		private Card.SideType _side = default(Card.SideType);
 		public Card.SideType Side
 		{
-			get { return Side; }
+			get { return _side; }
 			set
 			{
-				Side = value;
+				_side = value;
 				this._backSide. SetActive(value == Card.SideType.kBack );
 				this._frontSide.SetActive(value == Card.SideType.kFront);
 			}
 		}
 
-		private Tuple<Card.ShapeType?, Card.NumberType?> _shapeBundle
+		private Tuple<Card.ShapeType?, Card.NumberType?> _shapeBundle 
+			= Tuple.Create<Card.ShapeType?, Card.NumberType?>(null, null);
+		public Tuple<Card.ShapeType?, Card.NumberType?> ShapeBundle
 		{
 			get { return _shapeBundle; }
 			set

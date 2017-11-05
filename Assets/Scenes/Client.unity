@@ -380,7 +380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b697f0d86df5a3140b3973fd861b2be8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startStageName: WSTichu.Client.StageLauncher
+  _startStageName: EXTichu.Client.StageGamePlay
 --- !u!4 &1780185062
 Transform:
   m_ObjectHideFlags: 0

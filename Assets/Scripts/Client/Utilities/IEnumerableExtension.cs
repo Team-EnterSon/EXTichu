@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EnterSon.Utilities
 {
@@ -11,6 +12,16 @@ namespace EnterSon.Utilities
 			{
 				action(item);
 			}
+		}
+
+		public static T PickRandomly<T>(this IEnumerable<T> container)
+		{
+			return container.PickRandomly(new Random());
+		}
+
+		public static T PickRandomly<T>(this IEnumerable<T> container, Random randomTable)
+		{
+			return container.ElementAt(randomTable.Next(0, container.Count()));
 		}
 	}
 }
