@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,7 +45,9 @@ namespace EXTichu.Common.CoreLogics
 			kFront = 1,
 		}
 
+		[JsonIgnore]
 		public abstract Player Owner { get; }
+		public virtual uint OwnerUID { get; set; }
 		public virtual ShapeType? Shape { get; set; }
 		public virtual NumberType? Number { get; set; }
 		public virtual SideType Side { get; set; }
