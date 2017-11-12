@@ -48,7 +48,7 @@ namespace EXTichu.Server
 		//-- packet handler defines
 		private void onConnected(NetworkMessage source)
 		{
-			if(this._players.Count >= MAX_PLAYERS_IN_GAME)
+			if (this._players.Where(kvp => kvp.Value != null).Count() >= MAX_PLAYERS_IN_GAME)
 			{
 				// room is full
 				Debug.Log($"Kicked user {source.conn.address} because room is full");
@@ -58,7 +58,7 @@ namespace EXTichu.Server
 
 		private void onCS_JoinMatch(NetworkMessage source)
 		{
-			if(this._players.Count >= MAX_PLAYERS_IN_GAME)
+			if(this._players.Where(kvp => kvp.Value != null).Count() >= MAX_PLAYERS_IN_GAME)
 			{
 				// room is full
 				Debug.Log($"Kicked user {source.conn.address} because room is full");
