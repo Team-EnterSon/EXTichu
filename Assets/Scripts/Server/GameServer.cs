@@ -5,17 +5,18 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 using EXTichu.Common;
+using EXTichu.Common.CoreLogics;
 
 namespace EXTichu.Server
 {
 	public class GameServer : MonoBehaviour
 	{
 		//-- configurations
-		private int _maxGamePlayer = 4;
+		public const short MAX_PLAYERS_IN_GAME = 4;
 
 		private NetworkServerSimple _network = null;
 
-		public int _nextUID { get; private set; } = 0;
+		private uint _nextUID = 0;
 
 		public void Awake()
 		{
@@ -26,7 +27,7 @@ namespace EXTichu.Server
 			};
 			Action installMessageHandlers = () =>
 			{
-				_network.RegisterHandler(MessageType.CS_Hello, onCS_Hello);
+				_network.RegisterHandler(MessageType., onCS_Hello);
 			};
 
 			setupServerConfig();
@@ -47,15 +48,25 @@ namespace EXTichu.Server
 		//-- packet handler defines
 		private void onConnected(NetworkMessage source)
 		{
+			if(this._players.Count >= MAX_PLAYERS_IN_GAME)
+			{
+				// room is full
+				Debug.Log($"Kicked user {source.conn.address} because room is full");
+				source.conn.Disconnect();
+			}
+
+			var newPlayer = new ServerPlayer();
+			newPlayer.Name
+
 		}
 
-		private void onCS_Hello(NetworkMessage source)
+		private void onCS_SetReady(NetworkMessage source)
 		{
-			var receivedPacket = CS_Hello.ParseFrom(source.ReadMessage<SerializedPacket>());
 
-			source.conn.Send(MessageType.SC_World, new SC_World().Serialized);
 		}
 
-		//-- game logic functions
+		#region game logics
+		private List<Player> _players = new List<Player>();
+		#endregion
 	}
 }

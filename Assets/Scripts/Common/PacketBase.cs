@@ -25,7 +25,7 @@ namespace EXTichu.Common
 		public static T ParseFrom(SerializedPacket source)
 		{
 #if DEBUG
-			Debug.Log($"[PacketDump] Type : {nameof(T)}, content : {source.Source}");
+			Debug.Log($"[PacketDump] Type : {typeof(T).Name}, content : {source.Source}");
 #endif
 			return JsonConvert.DeserializeObject<T>(source.Source);
 		}

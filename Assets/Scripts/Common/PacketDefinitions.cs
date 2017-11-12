@@ -9,21 +9,13 @@ namespace EXTichu.Common
 {
 	public static class MessageType
 	{
-#if DEBUG
-		public const short CS_Hello = 101;
-		public const short SC_World = 102;
-#endif
+		public const short Connect = 32;
+		public const short SC_GameboardDump = 111;
 	}
 
-	[PacketWithID(MessageType.CS_Hello)]
-	public class CS_Hello : Packet<CS_Hello>
+	[PacketWithID(MessageType.SC_GameboardDump)]
+	public class SC_GameboardDump : Packet<SC_GameboardDump>
 	{
-		public string Name = "Anonymous";
-	}
-	
-	[PacketWithID(MessageType.SC_World)]
-	public class SC_World : Packet<SC_World>
-	{
-		public DateTime Time = DateTime.Now;
+		public Player[] PlayersInGame;
 	}
 }
