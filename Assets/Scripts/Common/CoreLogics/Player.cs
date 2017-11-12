@@ -13,5 +13,6 @@ namespace EXTichu.Common.CoreLogics
 		public virtual PlayerPosition Position { get; set; }
 		public virtual uint UID { get; set; }
 		public virtual List<Card> CardsInHand { get; set; } = new List<Card>();
+		public virtual bool IsReady { get; set; }
 	}
 }

@@ -13,6 +13,8 @@ namespace EXTichu.Common
 		public const short Connect = 32;
 		public const short CS_JoinMatch = 111;
 		public const short SC_JoinMatch = 112;
+		public const short CS_SetReady = 113;
+		public const short SC_SetReady = 114;
 	}
 
 	#region packet definitions
@@ -27,6 +29,20 @@ namespace EXTichu.Common
 	{
 		public GameDump GameContext = new GameDump();
 	}
+
+	[PacketWithID(MessageType.CS_SetReady)]
+	public class CS_SetReady : Packet<CS_SetReady>
+	{
+		public bool IsReady;
+	}
+
+	[PacketWithID(MessageType.SC_SetReady)]
+	public class SC_SetReady : Packet<SC_SetReady>
+	{
+		public uint PlayerUID;
+		public bool IsReady;
+	}
+
 	#endregion
 
 	#region data structures

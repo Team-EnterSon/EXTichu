@@ -69,13 +69,15 @@ namespace EXTichu.Server
 
 			var newPlayerPosition = this._players.Where(kvp => kvp.Value == null).First().Key;
 
-			var newPlayer = new ServerPlayer();
-			newPlayer.Name = receivedPacket.PlayerName;
-			newPlayer.UID = _nextUID++;
-			newPlayer.Position = newPlayerPosition;
-			newPlayer.Team = 
+			var newPlayer = new ServerPlayer
+			{
+				Name = receivedPacket.PlayerName,
+				UID = _nextUID++,
+				Position = newPlayerPosition,
+				Team =
 				newPlayerPosition == PlayerPosition.kPlayer0 || newPlayerPosition == PlayerPosition.kPlayer2
-				? TeamType.kTeam0 : TeamType.kTeam1;
+				? TeamType.kTeam0 : TeamType.kTeam1
+			};
 
 			this._players[newPlayer.Position] = newPlayer;
 
