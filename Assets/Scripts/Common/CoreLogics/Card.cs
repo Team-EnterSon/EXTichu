@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EXTichu.Common.CoreLogics
 {
-	public abstract class Card
+	public class Card
 	{
 		public enum ShapeType
 		{
@@ -46,7 +46,7 @@ namespace EXTichu.Common.CoreLogics
 		}
 
 		[JsonIgnore]
-		public abstract Player Owner { get; }
+		public virtual Player Owner { get; }
 		public virtual uint OwnerUID { get; set; }
 		public virtual ShapeType? Shape { get; set; }
 		public virtual NumberType? Number { get; set; }

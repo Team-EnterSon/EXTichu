@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EXTichu.Common.CoreLogics
 {
-	public abstract class Player
+	public class Player
 	{
 		public virtual string Name { get; set; } = string.Empty;
 		public virtual TeamType Team { get; set; }
