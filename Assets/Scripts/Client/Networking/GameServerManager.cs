@@ -31,7 +31,7 @@ namespace EXTichu.Client
 		public void Awake()
 		{
 			// install all handlers
-			installHandler(MessageType.SC_World, this.OnSC_World, SC_World.ParseFrom);
+			installHandler(MessageType.SC_JoinMatch, this.OnSC_JoinMatch, SC_JoinMatch.ParseFrom);
 		}
 
 		public IEnumerator ConnectToServer(string hostIP, int hostPort)

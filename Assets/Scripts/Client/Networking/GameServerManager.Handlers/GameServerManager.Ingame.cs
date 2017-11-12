@@ -7,18 +7,19 @@ using System.Threading.Tasks;
 
 namespace EXTichu.Client
 {
-    public partial class GameServerManager
-    {
-		public event Action<SC_World> OnSC_World  = _ => 
+	public partial class GameServerManager
+	{
+		private event Action<SC_JoinMatch> _onSC_JoinMatch = delegate { };
+		public event Action<SC_JoinMatch> OnSC_JoinMatch = _ =>
 		{
-			Instance._onSC_Wrold.Invoke(_);
-			Instance._onSC_Wrold = delegate { };
+			Instance._onSC_JoinMatch.Invoke(_);
+			Instance._onSC_JoinMatch = delegate { };
 		};
-		private event Action<SC_World> _onSC_Wrold = delegate { };
 
-		public void SendCS_Hello(CS_Hello request, Action<SC_World> onReply)
+		public void SendCS_JoinMatch(CS_JoinMatch request, Action<SC_JoinMatch> onReply)
 		{
-			this._onSC_Wrold += onReply;
+			if(onReply != null)
+				this._onSC_JoinMatch += onReply;
 			this.SendPacket(request);
 		}
 	}

@@ -12,4 +12,13 @@ namespace EXTichu.Common.CoreLogics
 		kTeam1 = 1,
 
 	}
+
+	public enum PlayerPosition
+	{
+		kPlayer0 = 0,
+		kPlayer1 = 1,
+		kPlayer2 = 2,
+		kPlayer3 = 3,
+
+	}
 }

@@ -27,7 +27,7 @@ namespace EXTichu.Server
 			};
 			Action installMessageHandlers = () =>
 			{
-				_network.RegisterHandler(MessageType., onCS_Hello);
+				_network.RegisterHandler(MessageType.CS_JoinMatch, onCS_JoinMatch);
 			};
 
 			setupServerConfig();
@@ -54,10 +54,36 @@ namespace EXTichu.Server
 				Debug.Log($"Kicked user {source.conn.address} because room is full");
 				source.conn.Disconnect();
 			}
+		}
+
+		private void onCS_JoinMatch(NetworkMessage source)
+		{
+			if(this._players.Count >= MAX_PLAYERS_IN_GAME)
+			{
+				// room is full
+				Debug.Log($"Kicked user {source.conn.address} because room is full");
+				source.conn.Disconnect();
+			}
+
+			var receivedPacket = CS_JoinMatch.ParseFrom(source);
+
+			var newPlayerPosition = this._players.Where(kvp => kvp.Value == null).First().Key;
 
 			var newPlayer = new ServerPlayer();
-			newPlayer.Name
+			newPlayer.Name = receivedPacket.PlayerName;
+			newPlayer.UID = _nextUID++;
+			newPlayer.Position = newPlayerPosition;
+			newPlayer.Team = 
+				newPlayerPosition == PlayerPosition.kPlayer0 || newPlayerPosition == PlayerPosition.kPlayer2
+				? TeamType.kTeam0 : TeamType.kTeam1;
 
+			this._players[newPlayer.Position] = newPlayer;
+
+
+			var response = new SC_JoinMatch();
+			response.GameContext.PlayersInGame = _players;
+
+			source.conn.Send(MessageType.SC_JoinMatch, response.Serialized);
 		}
 
 		private void onCS_SetReady(NetworkMessage source)
@@ -66,7 +92,13 @@ namespace EXTichu.Server
 		}
 
 		#region game logics
-		private List<Player> _players = new List<Player>();
+		private Dictionary<PlayerPosition, Player> _players = new Dictionary<PlayerPosition, Player>()
+		{
+			{PlayerPosition.kPlayer0, null },
+			{PlayerPosition.kPlayer1, null },
+			{PlayerPosition.kPlayer2, null },
+			{PlayerPosition.kPlayer3, null },
+		};
 		#endregion
 	}
 }

@@ -36,10 +36,8 @@ namespace EXTichu.Client
 			yield return connectToServer();
 			// Now network is connected
 
-			yield return new WaitForSeconds(3.0f);
-
-			GameServerManager.Instance.SendCS_Hello(new CS_Hello { Name = "바보" }, reply => Debug.Log(reply.Time));
-
+			yield return new WaitForSeconds(1.0f);
+			GameServerManager.Instance.SendCS_JoinMatch(new CS_JoinMatch { PlayerName = "바보바보" }, null);
 			yield break;
 		}
 
@@ -53,24 +51,5 @@ namespace EXTichu.Client
 
 			yield return GameServerManager.Instance.ConnectToServer(DataContainer.HostIP, DataContainer.HostPort);
 		}
-
-		private IEnumerator sendMessage<TReply>(short msgType, SerializedPacket packet, short replyType, Action<TReply> onReply) where TReply : Packet<TReply>, new()
-		{
-			var isReplyArrived = false;
-			_network.RegisterHandler(replyType, reply =>
-			{
-				var sourcePacket = reply.ReadMessage<SerializedPacket>();
-				Debug.LogFormat("Recved msg id : <color=orange>{0}</color>, content : <color=blue>{1}</color>", msgType, sourcePacket.Source);
-				onReply(Packet<TReply>.ParseFrom(sourcePacket));
-				isReplyArrived = true;
-				});
-			_network.Send(msgType, packet);
-
-			while (false == isReplyArrived)
-				yield return null;
-
-			_network.UnregisterHandler(replyType);
-		}
-
 	}
 }
