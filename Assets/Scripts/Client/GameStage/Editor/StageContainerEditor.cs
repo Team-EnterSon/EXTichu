@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace EnterSon.Stage
@@ -46,6 +47,11 @@ namespace EnterSon.Stage
 			startStageField.SetValue(target, selectedStageName);
 
 			serializedObject.ApplyModifiedProperties();
+
+			if(GUILayout.Button("Save Scene"))
+			{
+				EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
+			}
 		}
 	}
 }

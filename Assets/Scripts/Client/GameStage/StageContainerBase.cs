@@ -10,7 +10,7 @@ namespace EnterSon.Stage
 	public abstract class StageContainerBase : MonoBehaviour
 	{
 		/// <summary>
-		/// This method will invoked first before any stage's initialize method.
+		/// This method will be invoked as first of any kind of stage's initialize method.
 		/// </summary>
 		protected abstract void bootUpAction();
 

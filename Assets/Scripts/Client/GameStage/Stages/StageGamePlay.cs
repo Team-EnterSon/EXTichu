@@ -33,24 +33,12 @@ namespace EXTichu.Client
 
 		private IEnumerator mainRoutine()
 		{
-			//yield return connectToServer();
-			// NOTE(sorae): now network is connected
+			yield return connectToServer();
+			// Now network is connected
 
-			var dummyCard = ClientCard.Factory.Create();
+			yield return new WaitForSeconds(3.0f);
 
-			var randomTable = new System.Random((int)DateTimeOffset.Now.ToUnixTimeSeconds());
-			var numbers = Enum.GetValues(typeof(Card.NumberType)).Cast<Card.NumberType>();
-			var shapes = Enum.GetValues(typeof(Card.ShapeType)).Cast<Card.ShapeType>();
-
-			while (true)
-			{
-				yield return new WaitForSeconds(1.0f);
-
-				dummyCard.Number = numbers.PickRandomly(randomTable);
-				dummyCard.Shape  = shapes.PickRandomly(randomTable);
-				dummyCard.Side = Tuple.Create(dummyCard.Shape, dummyCard.Number).IsValid()
-					? Card.SideType.kFront : Card.SideType.kBack;
-			}
+			GameServerManager.Instance.SendCS_Hello(new CS_Hello { Name = "바보" }, reply => Debug.Log(reply.Time));
 
 			yield break;
 		}
@@ -61,24 +49,17 @@ namespace EXTichu.Client
 			{
 			};
 
-			_network = new NetworkClient();
-
 			installHandlers();
-			_network.Connect(DataContainer.HostIP, DataContainer.HostPort);
 
-			while (_network.isConnected == false)
-			{
-				yield return null;
-			}
-			yield break;
+			yield return GameServerManager.Instance.ConnectToServer(DataContainer.HostIP, DataContainer.HostPort);
 		}
 
-		private IEnumerator sendMessage<TReply>(short msgType, SourcePacket packet, short replyType, Action<TReply> onReply) where TReply : Packet<TReply>, new()
+		private IEnumerator sendMessage<TReply>(short msgType, SerializedPacket packet, short replyType, Action<TReply> onReply) where TReply : Packet<TReply>, new()
 		{
 			var isReplyArrived = false;
 			_network.RegisterHandler(replyType, reply =>
 			{
-				var sourcePacket = reply.ReadMessage<SourcePacket>();
+				var sourcePacket = reply.ReadMessage<SerializedPacket>();
 				Debug.LogFormat("Recved msg id : <color=orange>{0}</color>, content : <color=blue>{1}</color>", msgType, sourcePacket.Source);
 				onReply(Packet<TReply>.ParseFrom(sourcePacket));
 				isReplyArrived = true;
@@ -90,9 +71,6 @@ namespace EXTichu.Client
 
 			_network.UnregisterHandler(replyType);
 		}
-
-
-
 
 	}
 }

@@ -6,4 +6,5 @@
 /Temp
 /UnityPackageManager
 /obj
+/Bin
 *.csproj

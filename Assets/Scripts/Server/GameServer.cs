@@ -26,6 +26,7 @@ namespace EXTichu.Server
 			};
 			Action installMessageHandlers = () =>
 			{
+				_network.RegisterHandler(MessageType.CS_Hello, onCS_Hello);
 			};
 
 			setupServerConfig();
@@ -48,15 +49,13 @@ namespace EXTichu.Server
 		{
 		}
 
-		private void onRequestGameBoard(NetworkMessage netMsg)
+		private void onCS_Hello(NetworkMessage source)
 		{
+			var receivedPacket = CS_Hello.ParseFrom(source.ReadMessage<SerializedPacket>());
 
+			source.conn.Send(MessageType.SC_World, new SC_World().Serialized);
 		}
 
 		//-- game logic functions
-		private bool AddPlayerToGameBaord()
-		{
-			return false;
-		}
 	}
 }
